@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Level 1.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/Scenes/Level 2.unity
-    guid: 7cdf12f3850bdbd44bd50c1f785612b2
-  - enabled: 1
     path: Assets/Scenes/AliScene/Ali1.unity
     guid: 27754dd354431d44a92cc39f7670056f
   - enabled: 1
     path: Assets/Scenes/AliScene/Ali2.unity
     guid: 8d76942653b985a4b9cadf2c4249b862
+  - enabled: 1
+    path: Assets/Scenes/AliScene/Ali3.unity
+    guid: f864755c0a61f4d41a381074f34efe27
+  - enabled: 1
+    path: Assets/Scenes/AliScene/Ali4.unity
+    guid: 4b81af0aab9d6e249b1d3697eb33e8d4
   m_configObjects: {}
