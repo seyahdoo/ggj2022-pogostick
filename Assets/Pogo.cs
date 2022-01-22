@@ -18,6 +18,7 @@ public class Pogo : MonoBehaviour {
     private float _rayOffset = 0f;
     private Rigidbody2D _body;
     private float _lastJumpInput;
+    private bool _allowBounce;
 
     private void Awake() {
         _body = GetComponent<Rigidbody2D>();
@@ -38,9 +39,14 @@ public class Pogo : MonoBehaviour {
         if (TryGetGroundDistance(out var hit)) {
             var distanceToGround = hit.distance - _rayOffset;
             if (distanceToGround > springLength) {
+                _allowBounce = true;
                 return;
             }
-            
+
+            if (!_allowBounce) {
+                return;
+            }
+
             if (distanceToGround <= 0) {
                 Bounce(hit.normal, minPower);
             }
@@ -62,6 +68,7 @@ public class Pogo : MonoBehaviour {
         Vector2 pogoForce = transform.up * power;
 
         _body.velocity = pogoForce + reflection;
+        _allowBounce = false;
     }
     
     private bool TryGetGroundDistance(out RaycastHit2D hit) {
