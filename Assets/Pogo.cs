@@ -12,7 +12,7 @@ public class Pogo : MonoBehaviour {
     public float bounciness = .8f;
     public float maxPower = 5;
     public float minPower = 1;
-    public float jumpWindow = 0.1f;
+    public float jumpWindow = 0.3f;
     public float maxTorque = 30;
     public LayerMask groundMask;
     
@@ -28,7 +28,7 @@ public class Pogo : MonoBehaviour {
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
             _lastJumpInput = Time.time;
         }
     }
@@ -45,7 +45,7 @@ public class Pogo : MonoBehaviour {
         var pointedPos = ray.GetPoint(distance);
         var down = (pointedPos - transform.position).normalized;
         var targetRot = Quaternion.LookRotation(transform.forward, -down);
-        Rotate2(targetRot.eulerAngles.z);
+        LookAt(targetRot.eulerAngles.z);
     }
 
     private void BounceDetection() {
@@ -55,26 +55,23 @@ public class Pogo : MonoBehaviour {
                 _allowBounce = true;
                 return;
             }
-
             if (!_allowBounce) {
                 return;
             }
-
             if (distanceToGround <= 0) {
                 Bounce(hit.normal, minPower);
                 indicator.position = minSpringTransformation.position;
             }
             else if(Time.time - _lastJumpInput <= jumpWindow) {
-                var springCenter = springLength / 2;
-                var distanceToCenter = Mathf.Abs(distanceToGround - springCenter);
-                var normDistanceToCenter = distanceToCenter / springCenter;
-                var power = Mathf.Lerp(minPower, maxPower, 1 - normDistanceToCenter);
+                var timeElapsed = Time.time - _lastJumpInput;
+                var timeElapsedNormalized = timeElapsed / jumpWindow;
+                var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
                 indicator.position = minSpringTransformation.position + minSpringTransformation.forward * distanceToGround;
                 Bounce(hit.normal, power);
             }
         }
     }
-
+    
     private void Bounce(Vector2 normal, float power) {
         Debug.Log("bounced");
         var reflection = Vector2.Reflect(_body.velocity, normal);
@@ -100,8 +97,8 @@ public class Pogo : MonoBehaviour {
         hit = default;
         return false;
     }
-
-    private void Rotate2(float targetAngle) {
+    
+    private void LookAt(float targetAngle) {
         var angle = JustifyAngle(_body.rotation);
         var deltaAngle = targetAngle - angle;
         if (deltaAngle > 180f) {
@@ -118,25 +115,6 @@ public class Pogo : MonoBehaviour {
         _body.AddTorque(torque, ForceMode2D.Force);
     }
     
-    private void Rotate(Quaternion targetRot) {
-        var deltaRot = targetRot * Quaternion.Inverse(transform.rotation);
-        deltaRot.ToAngleAxis(out float angle, out Vector3 axis);
-        
-        if (float.IsInfinity(axis.x)) {
-            axis = Vector3.zero;
-        }
-        
-        if (angle > 180f) {
-            angle -= 360f;
-        }
-        
-        var rad = angle * Mathf.Deg2Rad; 
-        var targetAngularVel = axis * rad / Time.deltaTime; 
-        var deltaAngularVel = targetAngularVel - new Vector3(0, 0, _body.angularVelocity);
-        var torque = Vector3.Scale(deltaAngularVel, new Vector3(0, 0, _body.inertia));
-        _body.AddTorque(torque.z, ForceMode2D.Impulse);
-    }
-
     private float JustifyAngle(float angle) {
         return (angle % 360 + 360) % 360;
     }
