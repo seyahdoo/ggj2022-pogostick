@@ -55,6 +55,9 @@ namespace LapsRuntime {
         }
         public void Stop() {
             _direction = 0f;
+            _body.velocity = Vector2.zero;
+            var worldPosition = transform.TransformPoint(_pathEnumerator.CurrentPosition);
+            _body.position = worldPosition;
         }
         public void TeleportForwardEnd() {
             _pathEnumerator.GoToEndPoint();
@@ -68,8 +71,9 @@ namespace LapsRuntime {
         }
         private void SetPosition(Vector2 localPosition) {
             var worldPosition = transform.TransformPoint(localPosition);
-            _body.position = worldPosition;
-            _body.velocity = Vector2.zero;
+            // _body.position = worldPosition;
+            _body.velocity = ((Vector2)worldPosition - _body.position) / Time.fixedDeltaTime;
+            // _body.velocity = Vector2.zero;
         }
         public override object HandleInput(int slotId, object parameter, LapsComponent eventSource) {
             switch (slotId) {
