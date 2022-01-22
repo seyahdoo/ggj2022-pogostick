@@ -114,6 +114,7 @@ public class Pogo : MonoBehaviour {
         var targetAngleVel = deltaAngle / Time.fixedDeltaTime;
         var deltaAngleVel = targetAngleVel - _body.angularVelocity;
         var torque = deltaAngleVel * _body.inertia;
+        torque = Mathf.Clamp(torque, -maxTorque, +maxTorque);
         _body.AddTorque(torque, ForceMode2D.Force);
     }
     
