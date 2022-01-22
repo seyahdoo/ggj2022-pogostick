@@ -88,7 +88,7 @@ public class Pogo : MonoBehaviour {
             var timeElapsedNormalized = timeElapsed / jumpWindow;
             var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
             var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
-            Bounce(point, normal, power * multiplier * multiplier);
+            Bounce(point, normal, power * multiplier);
         }
     }
 
