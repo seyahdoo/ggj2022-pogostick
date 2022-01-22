@@ -28,8 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.025754213}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 5703958118011339159}
+  m_Children: []
   m_Father: {fileID: 6384875023735376932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -108,11 +107,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2379700018799782405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0014291778, y: 0, z: -0.024415378}
+  m_LocalPosition: {x: -0.0014291778, y: 0, z: 0.0013388358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4677755008338883474}
-  m_RootOrder: 0
+  m_Father: {fileID: 6384875023735376932}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6331240032875621166
 MeshFilter:
@@ -172,6 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6384875023735376932}
+  - component: {fileID: 3232340682970759430}
   m_Layer: 6
   m_Name: Eye
   m_TagString: Untagged
@@ -186,15 +186,31 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6384875023735376933}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07857082, y: -0.154387, z: -0.043248147}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4677755008338883474}
+  - {fileID: 5703958118011339159}
   - {fileID: 771015411792246600}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3232340682970759430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384875023735376933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99bb54e247f45e489a5296214b26f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iris: {fileID: 771015411792246600}
+  maxDistance: 0.03
+  graviy: {x: 0, y: -1}
 --- !u!1 &7688040491090310236
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +241,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6384875023735376932}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3779510752286356245
 MeshFilter:
