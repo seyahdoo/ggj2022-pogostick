@@ -209,8 +209,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iris: {fileID: 771015411792246600}
-  maxDistance: 0.03
-  graviy: {x: 0, y: -4}
+  maxDistance: 0.09
+  gravity: {x: 0, y: -9.8}
+  bouncy: 0.8
 --- !u!1 &7688040491090310236
 GameObject:
   m_ObjectHideFlags: 0

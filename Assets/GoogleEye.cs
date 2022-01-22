@@ -6,7 +6,9 @@ using UnityEngine;
 public class GoogleEye : MonoBehaviour {
     [SerializeField] private Transform iris;
     [SerializeField] private float maxDistance;
-    [SerializeField] private Vector2 graviy = Vector2.down;
+    [SerializeField] private Vector2 gravity = Vector2.down;
+    [SerializeField] private float bouncy = 0.2f;
+    
 
     private Vector2 _velocity;
     private Vector3 _irisPos;
@@ -16,18 +18,18 @@ public class GoogleEye : MonoBehaviour {
     }
 
     void Update() {
-        var d = (transform.position - _irisPos).magnitude;
-        if (d < maxDistance) {
-            _velocity += graviy * Time.deltaTime;
+        _velocity += gravity * Time.deltaTime;
+        var forecastPos = _irisPos + (Vector3)_velocity * Time.deltaTime;
+        var deltaToCenter = forecastPos - transform.position;
+        var hasCollision = deltaToCenter.magnitude > maxDistance;
+        if (hasCollision) {
+            _irisPos = transform.position + deltaToCenter.normalized * maxDistance;
+            _velocity = Vector2.Reflect(_velocity, -deltaToCenter.normalized) * bouncy;
         }
         else {
-            _velocity = graviy;
+            _irisPos += (Vector3)_velocity * Time.deltaTime;
         }
-
-        var newPos = _irisPos + (Vector3)_velocity * Time.deltaTime;
-        var deltaToCenter = newPos - transform.position;
-        _irisPos = transform.position + deltaToCenter.normalized * Mathf.Min(deltaToCenter.magnitude, maxDistance);
-        Debug.Log($"{nameof(_irisPos)}: {_irisPos}");
+        
         iris.position = _irisPos;
     } 
 }

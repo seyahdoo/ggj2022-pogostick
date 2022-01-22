@@ -360,10 +360,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 816717026137901664, guid: 96229b0c43e4d17418a3f2113bedd9b6, type: 3}
-      propertyPath: m_Interpolate
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 816717026137901666, guid: 96229b0c43e4d17418a3f2113bedd9b6, type: 3}
       propertyPath: m_RootOrder
       value: 2
