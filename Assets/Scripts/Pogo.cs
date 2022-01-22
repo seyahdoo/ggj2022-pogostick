@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -22,8 +23,8 @@ public class Pogo : MonoBehaviour {
     [Header("Animator")] 
     [SerializeField] private Animator animator;
     [SerializeField] private float springAnimSpeed = 12f;
-    
-    
+
+    private Dictionary<int, SpecializedGround> _specializedGroundDic = new Dictionary<int, SpecializedGround>();
     private RaycastHit2D[] _results = new RaycastHit2D[1];
     private float _rayOffset = 0f;
     private Rigidbody2D _body;
@@ -53,7 +54,7 @@ public class Pogo : MonoBehaviour {
         if (RaycastGround(out var hit)) {
             var distanceToGround = hit.distance - _rayOffset;
             _targetSpringBlend = Mathf.Clamp(1 - distanceToGround / springLength, 0, 1);
-            Bounce(distanceToGround, hit.point, hit.normal);
+            Bounce(hit.collider, distanceToGround, hit.point, hit.normal);
         }
         else {
             _targetSpringBlend = 0;
@@ -61,29 +62,33 @@ public class Pogo : MonoBehaviour {
 
     }
 
-    private void Bounce(float distanceToGround, Vector2 point, Vector2 normal) {
-        if (distanceToGround > springLength) {
+    private void Bounce(Collider2D collider, float distance, Vector2 point, Vector2 normal) {
+        if (distance > springLength) {
             _allowBounce = true;
             return;
         }
-
-        var forceBounce = distanceToGround <= forceBounceTreshold * springLength;
-        if (forceBounce) {
-            Bounce(point, normal, minPower);
-        }
-            
-        if (!_allowBounce) {
+        
+        var forceBounce = distance <= forceBounceTreshold * springLength;
+        if (!forceBounce && !_allowBounce) {
             return;
         }
 
-        if (distanceToGround <= 0) {
-            Bounce(point, normal, minPower);
+        var instanceId = collider.GetInstanceID();
+        if (!_specializedGroundDic.TryGetValue(instanceId, out SpecializedGround specializedGround)) {
+            specializedGround = collider.GetComponent<SpecializedGround>();
+            _specializedGroundDic.Add(instanceId, specializedGround);
+        }
+        
+        if (forceBounce || distance <= 0) {
+            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
+            Bounce(point, normal, minPower * multiplier);
         }
         else if(Time.time - _lastJumpInput <= jumpWindow) {
             var timeElapsed = Time.time - _lastJumpInput;
             var timeElapsedNormalized = timeElapsed / jumpWindow;
             var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
-            Bounce(point, normal, power);
+            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
+            Bounce(point, normal, power * multiplier * multiplier);
         }
     }
 
