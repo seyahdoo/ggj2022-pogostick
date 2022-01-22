@@ -15,11 +15,19 @@ public class Pogo : MonoBehaviour {
     [SerializeField] private float jumpWindow = 0.3f;
     [SerializeField] private float criticalContraption = 0.1f;
     
+    [Header("Effect")]
+    [SerializeField] private ParticleSystem bounceParticleSystem;
+    [SerializeField] private float bounceEffectCooldown = 0.6f;
+
+
+
+    
     private RaycastHit2D[] _results = new RaycastHit2D[1];
     private float _rayOffset = 0f;
     private Rigidbody2D _body;
     private float _lastJumpInput;
     private bool _allowBounce;
+    private float _lastBounceEffectPlayedTime;
 
     private void Awake() {
         _body = GetComponent<Rigidbody2D>();
@@ -50,21 +58,30 @@ public class Pogo : MonoBehaviour {
                 return;
             }
 
-            if (overrideBounce) {
+            if (overrideBounce && distanceToGround <= 0) {
                 Bounce(hit.normal, minPower);
-            }
-            else if (distanceToGround <= 0) {
-                Bounce(hit.normal, minPower);
+                PlayBounceEffect(hit.point, hit.normal);
             }
             else if(Time.time - _lastJumpInput <= jumpWindow) {
                 var timeElapsed = Time.time - _lastJumpInput;
                 var timeElapsedNormalized = timeElapsed / jumpWindow;
                 var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
                 Bounce(hit.normal, power);
+                PlayBounceEffect(hit.point, hit.normal);
             }
         }
     }
-    
+
+    private void PlayBounceEffect(Vector2 position, Vector2 normal) {
+        if (Time.time - _lastBounceEffectPlayedTime > bounceEffectCooldown) {
+            _lastBounceEffectPlayedTime = Time.time;
+            var tr = bounceParticleSystem.transform;
+            tr.up = normal;
+            tr.position = position;
+            bounceParticleSystem.Play();
+        }
+    }
+
     private bool TryGetGroundDistance(out RaycastHit2D hit) {
         var hitCount = Physics2D.RaycastNonAlloc(
             rayTransformation.position,
