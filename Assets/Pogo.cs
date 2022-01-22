@@ -102,8 +102,7 @@ public class Pogo : MonoBehaviour {
     }
 
     private void Rotate2(float targetAngle) {
-        var angle = _body.rotation;
-        // Debug.Log($"{nameof(angle)}: {angle}");
+        var angle = JustifyAngle(_body.rotation);
         var deltaAngle = targetAngle - angle;
         if (deltaAngle > 180f) {
             deltaAngle -= 360f;
@@ -111,10 +110,10 @@ public class Pogo : MonoBehaviour {
         else if (deltaAngle < -180) {
             deltaAngle += 360f;
         }
+        Debug.Log($"{nameof(deltaAngle)}: {deltaAngle}");
         var targetAngleVel = deltaAngle / Time.fixedDeltaTime;
         var deltaAngleVel = targetAngleVel - _body.angularVelocity;
         var torque = deltaAngleVel * _body.inertia;
-        torque = Mathf.Clamp(torque, -maxTorque, maxTorque);
         _body.AddTorque(torque, ForceMode2D.Force);
     }
     
