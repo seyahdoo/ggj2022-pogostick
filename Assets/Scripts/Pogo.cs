@@ -30,6 +30,7 @@ public class Pogo : MonoBehaviour {
     private float _lastJumpInput;
     private bool _allowBounce;
     private float _lastBounceEffectPlayedTime;
+    private float _targetSpringBlend;
 
     private int _springBlend = Animator.StringToHash("springBlend");
 
@@ -42,22 +43,22 @@ public class Pogo : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
             _lastJumpInput = Time.time;
         }
+        
+        UpdateSpringAnimation(_targetSpringBlend);
     }
 
     private void FixedUpdate() {
         LookAtMouse();
 
-        float targetSpringBlend;
         if (RaycastGround(out var hit)) {
             var distanceToGround = hit.distance - _rayOffset;
-            targetSpringBlend = Mathf.Clamp(1 - distanceToGround / springLength, 0, 1);
+            _targetSpringBlend = Mathf.Clamp(1 - distanceToGround / springLength, 0, 1);
             Bounce(distanceToGround, hit.point, hit.normal);
         }
         else {
-            targetSpringBlend = 0;
+            _targetSpringBlend = 0;
         }
 
-        UpdateSpringAnimation(targetSpringBlend);
     }
 
     private void Bounce(float distanceToGround, Vector2 point, Vector2 normal) {
