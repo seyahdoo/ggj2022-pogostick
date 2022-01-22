@@ -73,7 +73,6 @@ public class Pogo : MonoBehaviour {
     }
     
     private void Bounce(Vector2 normal, float power) {
-        Debug.Log("bounced");
         var reflection = Vector2.Reflect(_body.velocity, normal);
         reflection *= bounciness;
 
@@ -107,7 +106,6 @@ public class Pogo : MonoBehaviour {
         else if (deltaAngle < -180) {
             deltaAngle += 360f;
         }
-        Debug.Log($"{nameof(deltaAngle)}: {deltaAngle}");
         var targetAngleVel = deltaAngle / Time.fixedDeltaTime;
         var deltaAngleVel = targetAngleVel - _body.angularVelocity;
         var torque = deltaAngleVel * _body.inertia;
