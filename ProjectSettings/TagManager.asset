@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: spikes
+    uniqueID: 1838869389
+    locked: 0
+  - name: foreground
+    uniqueID: 2185473013
+    locked: 0

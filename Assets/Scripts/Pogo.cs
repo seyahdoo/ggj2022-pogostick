@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,21 +14,26 @@ public class Pogo : MonoBehaviour {
     [SerializeField] private float maxTorque = 30;
     [SerializeField] private float bounciness = .8f;
     [SerializeField] private float jumpWindow = 0.3f;
-    [SerializeField] private float criticalContraption = 0.1f;
+    [SerializeField] private float forceBounceTreshold = 0.1f;
     
     [Header("Effect")]
     [SerializeField] private ParticleSystem bounceParticleSystem;
     [SerializeField] private float bounceEffectCooldown = 0.6f;
 
+    [Header("Animator")] 
+    [SerializeField] private Animator animator;
+    [SerializeField] private float springAnimSpeed = 12f;
 
-
-    
+    private Dictionary<int, SpecializedGround> _specializedGroundDic = new Dictionary<int, SpecializedGround>();
     private RaycastHit2D[] _results = new RaycastHit2D[1];
     private float _rayOffset = 0f;
     private Rigidbody2D _body;
     private float _lastJumpInput;
     private bool _allowBounce;
     private float _lastBounceEffectPlayedTime;
+    private float _targetSpringBlend;
+
+    private int _springBlend = Animator.StringToHash("springBlend");
 
     private void Awake() {
         _body = GetComponent<Rigidbody2D>();
@@ -38,51 +44,61 @@ public class Pogo : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) {
             _lastJumpInput = Time.time;
         }
+        
+        UpdateSpringAnimation(_targetSpringBlend);
     }
 
     private void FixedUpdate() {
-        BounceDetection();
         LookAtMouse();
-    }
-    
-    private void BounceDetection() {
-        if (TryGetGroundDistance(out var hit)) {
+
+        if (RaycastGround(out var hit)) {
             var distanceToGround = hit.distance - _rayOffset;
-            if (distanceToGround > springLength) {
-                _allowBounce = true;
-                return;
-            }
+            _targetSpringBlend = Mathf.Clamp(1 - distanceToGround / springLength, 0, 1);
+            Bounce(hit.collider, distanceToGround, hit.point, hit.normal);
+        }
+        else {
+            _targetSpringBlend = 0;
+        }
 
-            var overrideBounce = distanceToGround <= criticalContraption * springLength;
-            if (!overrideBounce && !_allowBounce) {
-                return;
-            }
+    }
 
-            if (overrideBounce && distanceToGround <= 0) {
-                Bounce(hit.normal, minPower);
-                PlayBounceEffect(hit.point, hit.normal);
-            }
-            else if(Time.time - _lastJumpInput <= jumpWindow) {
-                var timeElapsed = Time.time - _lastJumpInput;
-                var timeElapsedNormalized = timeElapsed / jumpWindow;
-                var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
-                Bounce(hit.normal, power);
-                PlayBounceEffect(hit.point, hit.normal);
-            }
+    private void Bounce(Collider2D collider, float distance, Vector2 point, Vector2 normal) {
+        if (distance > springLength) {
+            _allowBounce = true;
+            return;
+        }
+        
+        var forceBounce = distance <= forceBounceTreshold * springLength;
+        if (!forceBounce && !_allowBounce) {
+            return;
+        }
+
+        var instanceId = collider.GetInstanceID();
+        if (!_specializedGroundDic.TryGetValue(instanceId, out SpecializedGround specializedGround)) {
+            specializedGround = collider.GetComponent<SpecializedGround>();
+            _specializedGroundDic.Add(instanceId, specializedGround);
+        }
+        
+        if (forceBounce || distance <= 0) {
+            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
+            Bounce(point, normal, minPower * multiplier);
+        }
+        else if(Time.time - _lastJumpInput <= jumpWindow) {
+            var timeElapsed = Time.time - _lastJumpInput;
+            var timeElapsedNormalized = timeElapsed / jumpWindow;
+            var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
+            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
+            Bounce(point, normal, power * multiplier);
         }
     }
 
-    private void PlayBounceEffect(Vector2 position, Vector2 normal) {
-        if (Time.time - _lastBounceEffectPlayedTime > bounceEffectCooldown) {
-            _lastBounceEffectPlayedTime = Time.time;
-            var tr = bounceParticleSystem.transform;
-            tr.up = normal;
-            tr.position = position;
-            bounceParticleSystem.Play();
-        }
+    private void UpdateSpringAnimation(float targetBlend) {
+        var blend = animator.GetFloat(_springBlend);
+        blend = Mathf.MoveTowards(blend, targetBlend, springAnimSpeed * Time.deltaTime);
+        animator.SetFloat(_springBlend, blend);
     }
 
-    private bool TryGetGroundDistance(out RaycastHit2D hit) {
+    private bool RaycastGround(out RaycastHit2D hit) {
         var hitCount = Physics2D.RaycastNonAlloc(
             rayTransformation.position,
             rayTransformation.up,
@@ -97,7 +113,7 @@ public class Pogo : MonoBehaviour {
         return false;
     }
     
-    private void Bounce(Vector2 normal, float power) {
+    private void Bounce(Vector2 point, Vector2 normal, float power) {
         var reflection = Vector2.Reflect(_body.velocity, normal);
         reflection *= bounciness;
 
@@ -105,6 +121,18 @@ public class Pogo : MonoBehaviour {
 
         _body.velocity = pogoForce + reflection;
         _allowBounce = false;
+        
+        PlayBounceEffect(point, normal);
+    }
+    
+    private void PlayBounceEffect(Vector2 position, Vector2 normal) {
+        if (Time.time - _lastBounceEffectPlayedTime > bounceEffectCooldown) {
+            _lastBounceEffectPlayedTime = Time.time;
+            var tr = bounceParticleSystem.transform;
+            tr.up = normal;
+            tr.position = position;
+            bounceParticleSystem.Play();
+        }
     }
 
     private void LookAtMouse() {
