@@ -13,6 +13,7 @@ public class Pogo : MonoBehaviour {
     [SerializeField] private float maxTorque = 30;
     [SerializeField] private float bounciness = .8f;
     [SerializeField] private float jumpWindow = 0.3f;
+    [SerializeField] private float criticalContraption = 0.1f;
     
     private RaycastHit2D[] _results = new RaycastHit2D[1];
     private float _rayOffset = 0f;
@@ -43,10 +44,16 @@ public class Pogo : MonoBehaviour {
                 _allowBounce = true;
                 return;
             }
-            if (!_allowBounce) {
+
+            var overrideBounce = distanceToGround <= criticalContraption * springLength;
+            if (!overrideBounce && !_allowBounce) {
                 return;
             }
-            if (distanceToGround <= 0) {
+
+            if (overrideBounce) {
+                Bounce(hit.normal, minPower);
+            }
+            else if (distanceToGround <= 0) {
                 Bounce(hit.normal, minPower);
             }
             else if(Time.time - _lastJumpInput <= jumpWindow) {
