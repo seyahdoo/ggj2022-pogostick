@@ -9,29 +9,51 @@ public class Pogo : MonoBehaviour {
     public Transform minSpringTransformation;
     public float springLength;
     public float bounciness = .8f;
+    public float maxPower = 5;
+    public float minPower = 1;
+    public float jumpWindow = 0.1f;
     public LayerMask groundMask;
     
     private RaycastHit2D[] _results = new RaycastHit2D[1];
     private float _rayOffset = 0f;
     private Rigidbody2D _body;
+    private float _lastJumpInput;
+
     private void Awake() {
         _body = GetComponent<Rigidbody2D>();
         _rayOffset = (rayTransformation.position - minSpringTransformation.position).magnitude;
     }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            _lastJumpInput = Time.time;
+        }
+    }
+
     private void FixedUpdate() {
+        BounceDetection();
+    }
+
+    private void BounceDetection() {
         if (TryGetGroundDistance(out var hit)) {
-            var distanceToGround = hit.distance;
-            if (distanceToGround < _rayOffset + springLength) {
-                Bounce(hit.normal, 1f);
+            var distanceToGround = hit.distance - _rayOffset;
+            if (distanceToGround > springLength) {
+                return;
             }
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                if (distanceToGround < _rayOffset + springLength) {
-                    Bounce(hit.normal, 0f);
-                }
+            
+            if (distanceToGround <= 0) {
+                Bounce(hit.normal, minPower);
+            }
+            else if(Time.time - _lastJumpInput <= jumpWindow) {
+                var springCenter = springLength / 2;
+                var distanceToCenter = Mathf.Abs(distanceToGround - springCenter);
+                var normDistanceToCenter = distanceToCenter / springCenter;
+                var power = Mathf.Lerp(minPower, maxPower, 1 - normDistanceToCenter);
+                Bounce(hit.normal, power);
             }
         }
-        
     }
+
     private void Bounce(Vector2 normal, float power) {
         Debug.Log("bounced");
         var reflection = Vector2.Reflect(_body.velocity, normal);
@@ -41,6 +63,7 @@ public class Pogo : MonoBehaviour {
 
         _body.velocity = pogoForce + reflection;
     }
+    
     private bool TryGetGroundDistance(out RaycastHit2D hit) {
         var hitCount = Physics2D.RaycastNonAlloc(
             rayTransformation.position,
