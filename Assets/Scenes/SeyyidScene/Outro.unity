@@ -995,7 +995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelToLoad:
-    sceneAsset: {fileID: 102900000, guid: f864755c0a61f4d41a381074f34efe27, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 6e8905ed53ccecf43882b2fc12bd5a47, type: 3}
     scenePath: Assets/Scenes/AliScene/Ali666.unity
 --- !u!114 &1550991851
 MonoBehaviour:
