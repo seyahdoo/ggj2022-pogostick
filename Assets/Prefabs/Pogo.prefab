@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 816717026137901664}
   - component: {fileID: 816717026137901665}
   - component: {fileID: 988096359003783473}
+  - component: {fileID: 875159344}
   m_Layer: 6
   m_Name: Pogo
   m_TagString: Untagged
@@ -723,6 +724,7 @@ MonoBehaviour:
   forceBounceTreshold: 0.1
   bounceParticleSystem: {fileID: 3217743622781846165}
   bounceEffectCooldown: 0.6
+  stickTrans: {fileID: 0}
   animator: {fileID: 2611525965315343263}
   springAnimSpeed: 12
 --- !u!114 &988096359003783473
@@ -738,6 +740,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limitY: -50
+--- !u!114 &875159344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816717026137901667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5447da3c2c7a4c7092cd36dace24d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visuals:
+  - {fileID: 6865228484609363815}
+  - {fileID: 6865228484365348623}
+  - {fileID: 1733966034}
 --- !u!1 &816717026365674770
 GameObject:
   m_ObjectHideFlags: 0
@@ -5830,6 +5848,7 @@ GameObject:
   - component: {fileID: 9020052372213030064}
   - component: {fileID: 5379475447255089775}
   - component: {fileID: 1064129526846704735}
+  - component: {fileID: 1733966034}
   m_Layer: 0
   m_Name: Pogo_Spring
   m_TagString: Untagged
@@ -5900,6 +5919,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!61 &1733966034
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4601526287158157484}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 9.313226e-10, y: -0.12814727}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.047806658, y: 0.2629463}
+  m_EdgeRadius: 0
 --- !u!1 &8587533219730092251
 GameObject:
   m_ObjectHideFlags: 0
@@ -5911,6 +5956,7 @@ GameObject:
   - component: {fileID: 8910173224237752902}
   - component: {fileID: 7046086198376570107}
   - component: {fileID: 3515562199241996578}
+  - component: {fileID: 1314841818}
   m_Layer: 0
   m_Name: Pogo_A
   m_TagString: Untagged
@@ -5981,6 +6027,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!61 &1314841818
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8587533219730092251}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5480263}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.39008516, y: 0.7314862}
+  m_EdgeRadius: 0
 --- !u!1001 &816717025756047421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6079,6 +6151,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6384875023735376932, guid: 252753fbd56234143a27079436d9e2c1, type: 3}
   m_PrefabInstance: {fileID: 816717025756047421}
   m_PrefabAsset: {fileID: 0}
+--- !u!58 &6865228484365348623 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 6058396068210444082, guid: 252753fbd56234143a27079436d9e2c1, type: 3}
+  m_PrefabInstance: {fileID: 816717025756047421}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &816717026478671957
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6136,6 +6213,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 252753fbd56234143a27079436d9e2c1, type: 3}
+--- !u!58 &6865228484609363815 stripped
+CircleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 6058396068210444082, guid: 252753fbd56234143a27079436d9e2c1, type: 3}
+  m_PrefabInstance: {fileID: 816717026478671957}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6038814519986521201 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6384875023735376932, guid: 252753fbd56234143a27079436d9e2c1, type: 3}
