@@ -47,6 +47,10 @@ public class Pogo : MonoBehaviour {
         }
         
         UpdateSpringAnimation(_targetSpringBlend);
+        
+        if (Input.GetKeyDown(KeyCode.R)) {
+            SceneLoader.ReloadScene();
+        }
     }
 
     private void FixedUpdate() {
