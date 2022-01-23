@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Pogo : MonoBehaviour {
@@ -130,16 +131,42 @@ public class Pogo : MonoBehaviour {
             var force = a * _body.mass;
             collidedBody.AddForceAtPosition(force, hit.point);
         }
+
+        Color color =  Color.white;
+        var renderer = hit.collider.GetComponent<Renderer>();
+        if (renderer) {
+            if (renderer is SpriteRenderer spriteRenderer) {
+                color = spriteRenderer.color;
+            }
+            else if (renderer is SpriteShapeRenderer spriteShapeRenderer) {
+                color = spriteShapeRenderer.color;
+            }
+            else {
+                color = renderer.material.color;
+            }
+        }
         
-        PlayBounceEffect(hit.point, hit.normal);
+        PlayBounceEffect(hit.point, hit.normal, color);
     }
     
-    private void PlayBounceEffect(Vector2 position, Vector2 normal) {
+    private void PlayBounceEffect(Vector2 position, Vector2 normal, Color color) {
         if (Time.time - _lastBounceEffectPlayedTime > bounceEffectCooldown) {
             _lastBounceEffectPlayedTime = Time.time;
             var tr = bounceParticleSystem.transform;
             tr.up = normal;
             tr.position = position;
+            
+            var main = bounceParticleSystem.main;
+            var startColor = main.startColor;
+            var gradientMax = startColor.gradientMax;
+            var colorKeys = gradientMax.colorKeys;
+            var colorKey = colorKeys[0];
+            colorKey.color = color;
+            colorKeys[0] = colorKey;
+            gradientMax.colorKeys = colorKeys;
+            startColor.gradientMax = gradientMax;
+            main.startColor = startColor;
+            
             bounceParticleSystem.Play();
         }
     }
