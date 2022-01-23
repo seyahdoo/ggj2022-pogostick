@@ -1208,8 +1208,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelToLoad:
-    sceneAsset: {fileID: 102900000, guid: fb7744b4d3ae03f4a8765b19ea5b4ca3, type: 3}
-    scenePath: Assets/Scenes/SeyyidScene/Seyyid2-9.unity
+    sceneAsset: {fileID: 102900000, guid: 6e8905ed53ccecf43882b2fc12bd5a47, type: 3}
+    scenePath: Assets/Scenes/AliScene/Ali666-10.unity
 --- !u!114 &1550991851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1959,8 +1959,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelToLoad:
-    sceneAsset: {fileID: 102900000, guid: fb7744b4d3ae03f4a8765b19ea5b4ca3, type: 3}
-    scenePath: Assets/Scenes/SeyyidScene/Seyyid2-9.unity
+    sceneAsset: {fileID: 102900000, guid: d607bc303626e3f4f857382e783014a6, type: 3}
+    scenePath: Assets/Scenes/SeyyidScene/Seyyid1-7.unity
 --- !u!114 &1912531440
 MonoBehaviour:
   m_ObjectHideFlags: 0
