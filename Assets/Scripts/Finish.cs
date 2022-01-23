@@ -2,7 +2,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour {
+    public SceneReference sceneToLoad;
     private void OnTriggerEnter2D(Collider2D other) {
-        SceneLoader.LoadNextLevel();
+        if (sceneToLoad.ScenePath != null) {
+            SceneManager.LoadScene(sceneToLoad.ScenePath);
+        }
+        else {
+            SceneLoader.LoadNextLevel();
+        }
     }
 }
