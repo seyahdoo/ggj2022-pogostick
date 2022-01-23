@@ -54,15 +54,15 @@ public class Pogo : MonoBehaviour {
         if (RaycastGround(out var hit)) {
             var distanceToGround = hit.distance - _rayOffset;
             _targetSpringBlend = Mathf.Clamp(1 - distanceToGround / springLength, 0, 1);
-            Bounce(hit.collider, distanceToGround, hit.point, hit.normal);
+            BounceUpdate(hit);
         }
         else {
             _targetSpringBlend = 0;
         }
-
     }
 
-    private void Bounce(Collider2D collider, float distance, Vector2 point, Vector2 normal) {
+    private void BounceUpdate(RaycastHit2D hit) {
+        var distance = hit.distance - _rayOffset;
         if (distance > springLength) {
             _allowBounce = true;
             return;
@@ -73,22 +73,14 @@ public class Pogo : MonoBehaviour {
             return;
         }
 
-        var instanceId = collider.GetInstanceID();
-        if (!_specializedGroundDic.TryGetValue(instanceId, out SpecializedGround specializedGround)) {
-            specializedGround = collider.GetComponent<SpecializedGround>();
-            _specializedGroundDic.Add(instanceId, specializedGround);
-        }
-        
         if (forceBounce || distance <= 0) {
-            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
-            Bounce(point, normal, minPower * multiplier);
+            Bounce(hit, minPower);
         }
         else if(Time.time - _lastJumpInput <= jumpWindow) {
             var timeElapsed = Time.time - _lastJumpInput;
             var timeElapsedNormalized = timeElapsed / jumpWindow;
             var power = Mathf.Lerp(minPower, maxPower, 1 - timeElapsedNormalized);
-            var multiplier = specializedGround ? specializedGround.PowerMultiplier : 1;
-            Bounce(point, normal, power * multiplier);
+            Bounce(hit, power);
         }
     }
 
@@ -113,16 +105,33 @@ public class Pogo : MonoBehaviour {
         return false;
     }
     
-    private void Bounce(Vector2 point, Vector2 normal, float power) {
-        var reflection = Vector2.Reflect(_body.velocity, normal);
+    private void Bounce(RaycastHit2D hit, float power) {
+        var reflection = Vector2.Reflect(_body.velocity, hit.normal);
         reflection *= bounciness;
+        
+        var instanceId = hit.collider.GetInstanceID();
+        if (!_specializedGroundDic.TryGetValue(instanceId, out SpecializedGround specializedGround)) {
+            specializedGround = hit.collider.GetComponent<SpecializedGround>();
+            _specializedGroundDic.Add(instanceId, specializedGround);
+        }
 
+        if (specializedGround) {
+            power *= specializedGround.PowerMultiplier;
+        }
+        
         Vector2 pogoForce = transform.up * power;
 
         _body.velocity = pogoForce + reflection;
         _allowBounce = false;
         
-        PlayBounceEffect(point, normal);
+        var collidedBody = hit.rigidbody;
+        if (collidedBody) {
+            var a = -_body.velocity / Time.deltaTime;
+            var force = a * _body.mass;
+            collidedBody.AddForceAtPosition(force, hit.point);
+        }
+        
+        PlayBounceEffect(hit.point, hit.normal);
     }
     
     private void PlayBounceEffect(Vector2 position, Vector2 normal) {
