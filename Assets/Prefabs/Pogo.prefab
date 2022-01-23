@@ -724,7 +724,6 @@ MonoBehaviour:
   forceBounceTreshold: 0.1
   bounceParticleSystem: {fileID: 3217743622781846165}
   bounceEffectCooldown: 0.6
-  stickTrans: {fileID: 0}
   animator: {fileID: 2611525965315343263}
   springAnimSpeed: 12
 --- !u!114 &988096359003783473
@@ -5851,7 +5850,7 @@ GameObject:
   - component: {fileID: 1733966034}
   m_Layer: 0
   m_Name: Pogo_Spring
-  m_TagString: Untagged
+  m_TagString: Derby
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5959,7 +5958,7 @@ GameObject:
   - component: {fileID: 1314841818}
   m_Layer: 0
   m_Name: Pogo_A
-  m_TagString: Untagged
+  m_TagString: Derby
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
