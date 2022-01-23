@@ -29,4 +29,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/YusufScene/y3-valley.unity
     guid: d98ff3cba776d479b8f3fe8c1c9f3f58
+  - enabled: 1
+    path: Assets/Scenes/AliScene/Ali3.unity
+    guid: f864755c0a61f4d41a381074f34efe27
+  - enabled: 1
+    path: Assets/Scenes/SeyyidScene/Outro.unity
+    guid: 83836c52f29305846823bed254e11c0f
+  - enabled: 1
+    path: Assets/Scenes/AliScene/Ali666.unity
+    guid: 6e8905ed53ccecf43882b2fc12bd5a47
   m_configObjects: {}
