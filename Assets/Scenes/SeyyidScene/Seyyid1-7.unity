@@ -674,7 +674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772936, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6989552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772936, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3314,7 +3314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772936, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6989552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772936, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5725,6 +5725,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 294084106, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
+      propertyPath: sceneToLoad.scenePath
+      value: Assets/Scenes/SeyyidScene/Outro.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 294084106, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
+      propertyPath: sceneToLoad.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 83836c52f29305846823bed254e11c0f, type: 3}
     - target: {fileID: 6805300710195528666, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -5739,7 +5747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6805300710195528666, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.186656
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6805300710195528666, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
       propertyPath: m_LocalRotation.w

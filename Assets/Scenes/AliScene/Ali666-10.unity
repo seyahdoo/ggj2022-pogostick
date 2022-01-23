@@ -404,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[0].x
-      value: -15.250002
+      value: -15.249999
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[0].y
@@ -716,7 +716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[39].x
-      value: -14.314394
+      value: -14.314391
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[39].y
@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[40].x
-      value: -14.75
+      value: -14.749993
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[40].y
@@ -732,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[41].x
-      value: -15.250002
+      value: -15.249999
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772937, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_Points.Array.data[41].y
@@ -1220,7 +1220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772939, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalAABB.m_Center.x
-      value: 2.3449993
+      value: 2.3450012
       objectReference: {fileID: 0}
     - target: {fileID: 2098453678902772939, guid: aafdd660716d8854894826ce1d39fae2, type: 3}
       propertyPath: m_LocalAABB.m_Center.y
@@ -1247,6 +1247,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 294084106, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
+      propertyPath: sceneToLoad.scenePath
+      value: Assets/Scenes/SeyyidScene/Outro.unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 294084106, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
+      propertyPath: sceneToLoad.sceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 83836c52f29305846823bed254e11c0f, type: 3}
     - target: {fileID: 6805300710195528666, guid: 9740bfd38ba9f464893e59552bfb8c46, type: 3}
       propertyPath: m_RootOrder
       value: 4
