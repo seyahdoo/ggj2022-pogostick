@@ -649,6 +649,7 @@ GameObject:
   - component: {fileID: 816717026137901666}
   - component: {fileID: 816717026137901664}
   - component: {fileID: 816717026137901665}
+  - component: {fileID: 988096359003783473}
   m_Layer: 6
   m_Name: Pogo
   m_TagString: Untagged
@@ -724,6 +725,18 @@ MonoBehaviour:
   bounceEffectCooldown: 0.6
   animator: {fileID: 2611525965315343263}
   springAnimSpeed: 12
+--- !u!114 &988096359003783473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816717026137901667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee2fc842d8dc1d246abc270d30bd6f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &816717026365674770
 GameObject:
   m_ObjectHideFlags: 0
