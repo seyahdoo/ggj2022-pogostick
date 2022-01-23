@@ -1,32 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class PhysicsExploder : MonoBehaviour
-{
+public class PhysicsExploder : MonoBehaviour {
     public Collider2D[] visuals;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Explode();
-        }
-          }
-
-    public void Explode()
-    {
+    public void Explode() {
         GetComponent<Pogo>().enabled = false;
-        foreach (Collider2D t in visuals)
-        {
-            t.enabled = true;
-            t.transform.parent = null;
-            t.gameObject.AddComponent<Rigidbody2D>();
+        foreach (var collider in visuals) {
+            collider.enabled = true;
+            collider.transform.parent = null;
+            collider.gameObject.AddComponent<Rigidbody2D>();
         }
     }
 }
